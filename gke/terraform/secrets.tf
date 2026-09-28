@@ -26,7 +26,7 @@ resource "google_secret_manager_secret" "oauth_client_id" {
   }
 
   replication {
-    automatic = true
+    automatic {}
   }
 }
 
@@ -60,7 +60,7 @@ resource "google_secret_manager_secret" "firebase_api_key" {
   }
 
   replication {
-    automatic = true
+    automatic {}
   }
 }
 

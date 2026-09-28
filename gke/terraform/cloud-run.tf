@@ -19,7 +19,7 @@
 # Backend Cloud Run Service
 resource "google_cloud_run_service" "backend" {
   name     = "dreamboard-backend"
-  location = var.cloudrun_region
+  location = var.region
   project  = var.project_id
 
   template {
@@ -116,7 +116,7 @@ resource "google_cloud_run_service" "backend" {
 # Frontend Cloud Run Service
 resource "google_cloud_run_service" "frontend" {
   name     = "dreamboard-frontend"
-  location = var.cloudrun_region
+  location = var.region
   project  = var.project_id
 
   template {
