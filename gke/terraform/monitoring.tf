@@ -187,7 +187,7 @@ resource "google_monitoring_dashboard" "dreamboard" {
               ]
             }
           }
-        }
+        },
 
         # Backend Error Rate
         {
