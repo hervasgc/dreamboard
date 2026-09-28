@@ -47,7 +47,7 @@ jobs:
           IMAGE_TAG_SHA="${{ env.REGISTRY }}/${{ env.PROJECT_ID }}/dreamboard-docker-repo/dreamboard-backend:${{ github.sha }}"
 
           cd backend
-          gcloud builds submit \
+          gcloud builds submit . \
             --region=${{ env.REGION }} \
             --tag "$IMAGE_TAG" \
             --tag "$IMAGE_TAG_SHA"
@@ -85,7 +85,7 @@ jobs:
           IMAGE_TAG_SHA="${{ env.REGISTRY }}/${{ env.PROJECT_ID }}/dreamboard-docker-repo/dreamboard-frontend:${{ github.sha }}"
 
           cd frontend/dreamboard
-          gcloud builds submit \
+          gcloud builds submit . \
             --region=${{ env.REGION }} \
             --tag "$IMAGE_TAG" \
             --tag "$IMAGE_TAG_SHA"
