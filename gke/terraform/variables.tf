@@ -21,31 +21,3 @@ variable "region" {
   description = "GCP location for the regional deployment."
   type        = string
 }
-
-variable "cloudrun_image_backend" {
-  description = "Artifact Registry URL for backend image"
-  type        = string
-}
-
-variable "cloudrun_image_frontend" {
-  description = "Artifact Registry URL for frontend image"
-  type        = string
-}
-
-variable "oauth_client_id" {
-  description = "Google OAuth Client ID for authentication"
-  type        = string
-  sensitive   = true
-}
-
-variable "backend_url" {
-  description = "URL of the backend service (optional, will be computed if not provided)"
-  type        = string
-  default     = ""
-}
-
-variable "alert_email" {
-  description = "Email address for receiving monitoring alerts"
-  type        = string
-  sensitive   = true
-}

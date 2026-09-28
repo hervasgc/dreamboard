@@ -107,7 +107,7 @@ create_firestore_database() {
         echo
         sleep 10
         gcloud firestore databases create --project="$GOOGLE_CLOUD_PROJECT" \
-        --location="$LOCATION" \
+        --location="$REGION" \
         --type=firestore-native \
         --database="$FIRESTORE_DB"
 
@@ -117,7 +117,7 @@ create_firestore_database() {
             sleep 60
             echo
             gcloud firestore databases create --project="$GOOGLE_CLOUD_PROJECT" \
-            --location="$LOCATION" \
+            --location="$REGION" \
             --type=firestore-native \
             --database="$FIRESTORE_DB"
         done
@@ -133,14 +133,14 @@ create_firestore_database() {
 deploy_cloud_run_service() {
     echo "Deploying Cloud Run Service..."
     gcloud run deploy $CLOUD_RUN_SERVICE_NAME --project="$GOOGLE_CLOUD_PROJECT" \
-    --region=$LOCATION \
+    --region=$REGION \
     --source="." \
     --service-account $SERVICE_ACCOUNT \
     --timeout 3600 \
     --memory 16Gi \
     --cpu=4 \
     --no-allow-unauthenticated \
-    --set-env-vars PROJECT_ID=$GOOGLE_CLOUD_PROJECT,LOCATION=$LOCATION,GCS_BUCKET=$BUCKET_NAME,FIRESTORE_DB=$FIRESTORE_DB,USE_AUTH_MIDDLEWARE=True,USE_PREVIEW_VIDEO_MODEL=False,USE_PREVIEW_GEMINI_IMAGE_MODEL=True,GEMINI_IMAGE_MODEL_LOCATION="global",USE_PREVIEW_GEMINI_MODEL=True,GEMINI_MODEL_LOCATION="global"
+    --set-env-vars PROJECT_ID=$GOOGLE_CLOUD_PROJECT,LOCATION=$VERTEX_LOCATION,GCS_BUCKET=$BUCKET_NAME,FIRESTORE_DB=$FIRESTORE_DB,USE_AUTH_MIDDLEWARE=True,USE_PREVIEW_VIDEO_MODEL=False,USE_PREVIEW_GEMINI_IMAGE_MODEL=True,GEMINI_IMAGE_MODEL_LOCATION="global",USE_PREVIEW_GEMINI_MODEL=True,GEMINI_MODEL_LOCATION="global"
     echo
 }
 
@@ -166,13 +166,22 @@ function init() {
         SERVICE_ACCOUNT_NAME="dreamboard-sa"
         FIRESTORE_DB="dreamboard-db"
         SERVICE_ACCOUNT=$SERVICE_ACCOUNT_NAME@$GOOGLE_CLOUD_PROJECT.iam.gserviceaccount.com
-        BUCKET_NAME=$GOOGLE_CLOUD_PROJECT"-dreamboard"
-        BUCKET="gs://$BUCKET_NAME"
 
-        read -p "Please enter a location where you wish to deploy the backend (press enter to use default us-central1) : " -r LOCATION
-        if [ -z "${LOCATION}" ]; then
-            LOCATION='us-central1'
+        read -p "Please enter a region where you wish to deploy the backend (press enter to use default us-central1) : " -r REGION
+        if [ -z "${REGION}" ]; then
+            REGION='us-central1'
         fi
+
+        read -p "Please enter the Vertex AI location for model calls (press enter to use default us-central1) : " -r VERTEX_LOCATION
+        if [ -z "${VERTEX_LOCATION}" ]; then
+            VERTEX_LOCATION='us-central1'
+        fi
+
+        read -p "Please enter the Cloud Storage bucket name (press enter to use default ${GOOGLE_CLOUD_PROJECT}-dreamboard) : " -r BUCKET_NAME
+        if [ -z "${BUCKET_NAME}" ]; then
+            BUCKET_NAME=$GOOGLE_CLOUD_PROJECT"-dreamboard"
+        fi
+        BUCKET="gs://$BUCKET_NAME"
 
         # Confirm deployment details
         echo
@@ -182,7 +191,8 @@ function init() {
         echo "${bold}${text_green}Backend Cloud Run Service: ${CLOUD_RUN_SERVICE_NAME}${reset}"
         echo "${bold}${text_green}Service Account: ${SERVICE_ACCOUNT}${reset}"
         echo "${bold}${text_green}Cloud Storage Bucket: ${BUCKET_NAME}${reset}"
-        echo "${bold}${text_green}Location: ${LOCATION}${reset}"
+        echo "${bold}${text_green}Cloud Run Region: ${REGION}${reset}"
+        echo "${bold}${text_green}Vertex AI Location: ${VERTEX_LOCATION}${reset}"
         echo
         if confirm "Continue?"; then
             echo
@@ -213,7 +223,7 @@ function init() {
                 echo
             else
                 echo
-                gcloud storage buckets create $BUCKET --project=$GOOGLE_CLOUD_PROJECT --location=$LOCATION --uniform-bucket-level-access
+                gcloud storage buckets create $BUCKET --project=$GOOGLE_CLOUD_PROJECT --location=$REGION --uniform-bucket-level-access
                 echo "INFO: Bucket $BUCKET_NAME created successfully!"
                 echo
             fi

@@ -21,11 +21,11 @@
 
 export const environment = {
   production: true,
-  videoGenerationApiURL: '/api/video_generation',
-  imageGenerationApiURL: '/api/image_generation',
-  textGenerationApiURL: '/api/text_generation',
-  fileUploaderApiURL: '/api/file_uploader',
-  storiesStorageApiURL: '/api/story_storage',
+  videoGenerationApiURL: 'https://dreamboard-backend-654852193118.southamerica-east1.run.app/api/video_generation',
+  imageGenerationApiURL: 'https://dreamboard-backend-654852193118.southamerica-east1.run.app/api/image_generation',
+  textGenerationApiURL: 'https://dreamboard-backend-654852193118.southamerica-east1.run.app/api/text_generation',
+  fileUploaderApiURL: 'https://dreamboard-backend-654852193118.southamerica-east1.run.app/api/file_uploader',
+  storiesStorageApiURL: 'https://dreamboard-backend-654852193118.southamerica-east1.run.app/api/story_storage',
   proxyURL: '', // proxy url is just api/handleRequest for Nodejs server in PROD
-  clientID: '',
+  clientID: '654852193118-80b6klec3rsmingglbvie47re4d15sad.apps.googleusercontent.com',
 };
