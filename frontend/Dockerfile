@@ -5,8 +5,6 @@ WORKDIR /app
 
 COPY dreamboard/package*.json dreamboard/package-lock.json /app/
 
-RUN npm install -g npm@latest
-
 RUN npm install
 
 COPY dreamboard /app/
