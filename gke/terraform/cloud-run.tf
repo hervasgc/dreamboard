@@ -16,37 +16,6 @@
 # Frontend: serves Angular UI
 # Backend: FastAPI server for AI services
 
-variable "cloudrun_region" {
-  description = "Region where Cloud Run services are deployed"
-  type        = string
-  default     = "southamerica-east1" # São Paulo region
-}
-
-variable "cloudrun_image_backend" {
-  description = "Artifact Registry URL for backend image"
-  type        = string
-  # Example: southamerica-east1-docker.pkg.dev/PROJECT_ID/dreamboard-docker-repo/dreamboard-backend:latest
-}
-
-variable "cloudrun_image_frontend" {
-  description = "Artifact Registry URL for frontend image"
-  type        = string
-  # Example: southamerica-east1-docker.pkg.dev/PROJECT_ID/dreamboard-docker-repo/dreamboard-frontend:latest
-}
-
-variable "oauth_client_id" {
-  description = "Google OAuth Client ID for authentication"
-  type        = string
-  sensitive   = true
-}
-
-variable "backend_url" {
-  description = "URL of the backend service"
-  type        = string
-  # Will be output by this module, but can be pre-set for frontend build
-  default     = ""
-}
-
 # Backend Cloud Run Service
 resource "google_cloud_run_service" "backend" {
   name     = "dreamboard-backend"

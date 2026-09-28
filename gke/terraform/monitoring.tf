@@ -213,7 +213,7 @@ resource "google_monitoring_dashboard" "dreamboard" {
               ]
             }
           }
-        }
+        },
 
         # Backend Latency (p50, p95, p99)
         {
