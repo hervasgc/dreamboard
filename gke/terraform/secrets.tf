@@ -24,8 +24,6 @@ resource "google_secret_manager_secret" "oauth_client_id" {
     environment = "production"
     managed-by  = "terraform"
   }
-
-  replication {}
 }
 
 # Store the OAuth Client ID secret value
@@ -56,8 +54,6 @@ resource "google_secret_manager_secret" "firebase_api_key" {
     environment = "production"
     managed-by  = "terraform"
   }
-
-  replication {}
 }
 
 # Grant Cloud Run service account access to Firebase secret
